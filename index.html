@@ -1,0 +1,453 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Starlink iraq سينما</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #0a0c10;
+            color: #eef2ff;
+            overflow-x: hidden;
+        }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 25px 30px;
+            width: 100%;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 15px;
+        }
+
+        .page-title h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to left, #f5f7fe, #cbd5ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            display: inline-block;
+        }
+        .page-title h1:hover {
+            opacity: 0.8;
+        }
+
+        .page-title p {
+            color: #8f9bb3;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .search-box {
+            background: #1a1e2a;
+            padding: 8px 18px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #2d3345;
+        }
+
+        .search-box i {
+            color: #ff9f4a;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #eef2ff;
+            font-family: 'Cairo', sans-serif;
+            width: 220px;
+        }
+
+        .search-box input::placeholder {
+            color: #6a6f86;
+        }
+
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 22px;
+            margin-top: 20px;
+        }
+
+        .anime-card {
+            background: #141824;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 12px 20px -12px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+        }
+
+        .anime-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 140, 66, 0.4);
+            box-shadow: 0 22px 28px -14px rgba(0, 0, 0, 0.6);
+            background: #1b212e;
+        }
+
+        .card-img {
+            position: relative;
+            width: 100%;
+            padding-top: 130%;
+            overflow: hidden;
+            background: #0b0e16;
+        }
+
+        .card-img img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .anime-card:hover .card-img img {
+            transform: scale(1.05);
+        }
+
+        .card-info {
+            padding: 14px 8px 12px;
+            text-align: center;
+        }
+
+        .card-info h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #f0f3ff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 6px;
+        }
+
+        .badge {
+            background: rgba(255, 140, 66, 0.2);
+            color: #ffb347;
+            font-size: 0.65rem;
+            padding: 4px 8px;
+            border-radius: 40px;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .play-hint {
+            opacity: 0;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff8c42e6;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            transition: 0.2s;
+            pointer-events: none;
+            color: #0a0c10;
+        }
+
+        .anime-card:hover .play-hint {
+            opacity: 1;
+        }
+
+        .footer-note {
+            margin-top: 50px;
+            text-align: center;
+            color: #5a6b8c;
+            font-size: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 25px;
+        }
+
+        /* الهواتف: 4 بطاقات في السطر */
+        @media (max-width: 780px) {
+            .main-content {
+                padding: 20px 12px;
+            }
+            .anime-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+            }
+            .card-info h3 {
+                font-size: 0.7rem;
+            }
+            .badge {
+                font-size: 0.55rem;
+                padding: 2px 6px;
+            }
+            .play-hint {
+                font-size: 0.6rem;
+                padding: 3px 8px;
+            }
+            .page-title h1 {
+                font-size: 1.4rem;
+            }
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-box input {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .anime-grid {
+                gap: 8px;
+            }
+            .card-info {
+                padding: 8px 4px;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-content">
+    <div class="top-bar">
+        <div class="page-title">
+            <h1 id="homeLink"><i class="fas fa-crown" style="color:#FFB347; font-size: 1.5rem;"></i> Starlink iraq سينما</h1>
+            <p><html>
+<head>
+<meta content="text/html; charset=ISO-8859-1"
+http-equiv="content-type">
+<title></title>
+</head>
+<body>
+<span style="font-weight: bold;"><a
+href="https://eshaqtv.github.io/film"><span
+style="color: rgb(51, 102, 255);">الرئيسية</span></a>&nbsp; <a
+href="https://eshaqtv.github.io/Arabic"><span
+style="color: rgb(51, 204, 0);">افلام
+عربية</span></a><a href="https://eshaqtv.github.io/Arabic">&nbsp;</a>&nbsp;<a
+href="https://eshaqtv.github.io/Indian"> <span
+style="color: rgb(255, 204, 0);">افلام هندية </span></a>&nbsp;<a
+href="https://eshaqtv.github.io/Animation"> <span style="color: red;">افلام
+انميشن</span>&nbsp;</a>&nbsp; <a
+href="https://eshaqtv.github.io/Documentary"><span
+style="color: rgb(0, 204, 204);">وثائقيات</span></a></span><br
+style="font-weight: bold;">
+</body>
+</html> </p>
+        </div>
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="ابحث عن فيلم او تصنيف...">
+        </div>
+    </div>
+
+    <div id="animeGridContainer" class="anime-grid"></div>
+    <div class="footer-note">
+        <i class="fas fa-globe"></i> <html>
+<head>
+<meta content="text/html; charset=ISO-8859-1"
+http-equiv="content-type">
+<title></title>
+</head>
+<body>
+<a href="https://t.me/starlinkfilm" target="_blank">2026 | Telegram</a><br>
+</body>
+</html>
+
+    </div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // بيانات الأنمي الكاملة (لضمان الحفاظ على جميع العناوين)
+    // --------------------------------------------------------------
+    const animeItems = [
+    
+
+ 
+{ name: "Dhurandhar The Revenge (2026) هندي", img: "https://pngup.com/ywaz/Dhurandhar%20The%20Revenge%20(2026).jpg", link: "https://www.linkbox.to/a/f/9DwbuZp?d=true" },  
+{ name: "Singham Again (2024) هندي", img: "https://i.ibb.co/dJ53wsDx/Singham-Again-2024.jpg", link: "https://www.linkbox.to/a/f/cDw6zu6?d=true" },
+{ name: "Viraata Parvam (2022) هندي", img: "https://i.ibb.co/KNg5Wzy/Viraata-Parvam-2022.jpg", link: "https://www.linkbox.to/a/f/KEtWRk7?d=true" },
+{ name: "CTRL (2024) هندي", img: "https://i.ibb.co/RYv6sY3/CTRL-2024.jpg", link: "https://www.linkbox.to/a/f/0SVYxDn?d=true" },
+{ name: "The Goat Life (2024) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/vwRkVhvJuAFz4i8udXMNkcJCztc.jpg", link: "https://www.linkbox.to/a/f/gnalEEd?d=true" },
+{ name: "Dunki (2023) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/kPRb1mbVHGop0egQ7153y0lhzGL.jpg", link: "https://www.linkbox.to/a/f/sPxSDH0?d=true" },
+{ name: "Khufiya (2023) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bbHUuTEo2DsYLoXCjkL8kB0oPhy.jpg", link: "https://www.linkbox.to/a/f/adhNCTl?d=true" },
+{ name: "Gandeevadhari Arjuna (2023) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/ysgb4NqiSoNrqIVCR4Z0LUhu5Qu.jpg", link: "https://www.linkbox.to/a/f/t6CBjrh?d=true" },
+{ name: "Jaane Jaan (2023) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/oaUOV9VCNM5MjrmonqgH4o3XNwQ.jpg", link: "https://www.linkbox.to/a/f/crWmilK?d=true" },
+{ name: "Bholaa (2023) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/w8paJrxs5QLAUqzhsnurdBuxiWJ.jpg", link: "https://www.linkbox.to/a/f/CL4gI2W?d=true" },
+{ name: "Vaathi (2023) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/cRmYL2svlkgDUh2IoUTRHsX1YYr.jpg", link: "https://www.linkbox.to/a/f/slMLRkf?d=true" },
+{ name: "Pathaan (2023) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/arf00BkwvXo0CFKbaD9OpqdE4Nu.jpg", link: "https://www.linkbox.to/a/f/Qdk6u3p?d=true" },
+{ name: "Rekha (2023) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/aPDekC6fnKGUlR3kmhDvjgCCiVb.jpg", link: "https://www.linkbox.to/a/f/DjcHAoq?d=true" },
+{ name: "Kuttey (2023) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bwJHR0qzAvJLKy7EioiSRu0QivY.jpg", link: "https://www.linkbox.to/a/f/vSnn7rT?d=true" },
+{ name: "Thalaikoothal (2023) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/2mD5OmH58hWaEGEQVGbZcVBVH5D.jpg", link: "https://www.linkbox.to/a/f/nQRZxVF?d=true" },
+{ name: "Vendhu Thanindhathu Kaadu (2022) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/5Sb9aBfsVCQSHrU8p1akIK0g2t0.jpg", link: "https://www.linkbox.to/a/f/QUvsWTf?d=true" },
+{ name: "Sita Ramam (2022) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/g3hk2wEeIsTGhh7JvK8yWFVR7ue.jpg", link: "https://www.linkbox.to/a/f/0yJOYtV?d=true" },
+{ name: "Runway 34 (2022) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8RlQEuxeRqHh7sWTRswdUC9kP3H.jpg", link: "https://www.linkbox.to/a/f/Nr8QjK7?d=true" },
+{ name: "Kantara (2022) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/jIsKmkxMzdCZ0Ux1GVSnu8m6Na6.jpg", link: "https://www.linkbox.to/a/f/cerajCu?d=true" },
+{ name: "Pathonpatham Noottandu (2022) هندي", img: "https://pngup.com/eClF/Pathonpatham%20Noottandu%20(2022).JPG", link: "https://www.linkbox.to/a/f/maqKNuw?d=true" },
+{ name: "Ram Setu (2022) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/d14btEr1IdwITOpwsktGLYJ8O5v.jpg", link: "https://www.linkbox.to/a/f/OScN9GI?d=true" },
+{ name: "Vadh (2022) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/lgv1gGpX1Q9EjEiFYNJqC6nX1MF.jpg", link: "https://www.linkbox.to/a/f/mcOexKu?d=true" },
+{ name: "Code Name Tiranga (2022) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/mAcdxgmbLvflTz9cASmsURO09N2.jpg", link: "https://www.linkbox.to/a/f/vFdfd95?d=true" },
+{ name: "Nitham Oru Vaanam (2022) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6uD4nA4I4F7El6virBGKImrApEK.jpg", link: "https://www.linkbox.to/a/f/4UbVIRk?d=true" },
+{ name: "Kumari (2022) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/j7eUj1R2ySZaOhmsOx4vGm1zEFN.jpg", link: "https://www.linkbox.to/a/f/MSkZyc5?d=true" },
+{ name: "Goodbye (2022) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/pRexHlZOhOwTJBXtRpMAeSbHk4H.jpg", link: "https://www.linkbox.to/a/f/XPMzQZh?d=true" },
+{ name: "Dial 100 (2021) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/t9ncR9DFRfa6XW0uh28B36CBh4U.jpg", link: "https://www.linkbox.to/a/f/mSqVhfs?d=true" },
+{ name: "Tribhanga ( 2021) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/lbGINHbqJ7zYcIpsoIaEEASNrBM.jpg", link: "https://www.linkbox.to/a/f/zIbgBtc?d=true" },
+{ name: "Antim The Final Truth (2021) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/tiGTU46VBHPJ8b0pGneIII1tAkj.jpg", link: "https://www.linkbox.to/a/f/qzEtnyk?d=true" },
+{ name: "AK vs AK ( 2020) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/4ULEEvH0hDYnbWN3nClrb88sYCF.jpg", link: "https://www.linkbox.to/a/f/TIw2j7a?d=true" },
+{ name: "Badla (2019) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/eKpzbERuhogYTwI3PwfVsAHXnuO.jpg", link: "https://www.linkbox.to/a/f/10KK6BO?d=true" },
+{ name: "Begum Jaan (2017) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/spjYSwKazSQEkeMywBZIpnzilQp.jpg", link: "https://www.linkbox.to/a/f/CkDZ9eH?d=true" },
+{ name: "Raees (2017) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/zFYFUfnoXWxeA3n7v4acEqgk2iE.jpg", link: "https://www.linkbox.to/a/f/rE8Iume?d=true" },
+{ name: "Natsamrat (2016) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/idpdndC9eRM4CLH3rttMaMAeXv.jpg", link: "https://www.linkbox.to/a/f/0ylZV0u?d=true" },
+{ name: "Pink (2016) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6xNhnyKm2M5FEOY7xv5iKiQ5P3.jpg", link: "https://www.linkbox.to/a/f/FmhGrOX?d=true" },
+{ name: "Bajrangi Bhaijaan (2015) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/rNfToRJw35h7a4y6HXGRgfkLvdc.jpg", link: "https://www.linkbox.to/a/f/HCDXItu?d=true" },
+{ name: "Talaash The Answer Lies Within ( 2012) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/oCxyN7HmJ7zWp8jtJeMRHABnutF.jpg", link: "https://www.linkbox.to/a/f/pxkw1Yp?d=true" },
+{ name: "Jab Tak Hai Jaan ( 2012) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/1TlzJZrzUlaC95Noqt3oMoxQxCu.jpg", link: "https://www.linkbox.to/a/f/VmqXxPk?d=true" },
+{ name: "3 Idiots (2009) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/66A9MqXOyVFCssoloscw79z8Tew.jpg", link: "https://www.linkbox.to/a/f/KlONAN7?d=true" },
+{ name: "Baadshah (1999) هندي", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fXGeUIbEfgO3cfHuYuPkXnKVt43.jpg", link: "https://www.linkbox.to/a/f/q91isCb?d=true" },
+{ name: "Ghulam (1998)", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/b1Nq1gKCp7JhwkCzmb5x9XGkmLu.jpg", link: "https://www.linkbox.to/a/f/q5npGog?d=true" },
+{ name: "Bhoot Part One - The Haunted Ship (2020)", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/5rSRVvlIlelgKM58MAnnk4FId86.jpg", link: "https://www.linkbox.to/a/f/p259hPA?d=true" },
+    ];
+    const extraAnime = [
+    
+
+
+{ name: "افلام", img: "https://www8.0zz0.com/2022/04/22/13/564305132.jpg", link: "go:FILMS" },
+
+
+
+];
+
+
+   
+    const allAnime = [...animeItems, ...extraAnime];
+
+    // عناصر DOM
+    const searchInputElem = document.getElementById('searchInput');
+    const gridContainer = document.getElementById('animeGridContainer');
+    const homeLink = document.getElementById('homeLink');
+
+    // تعطيل استعادة التمرير التلقائي من المتصفح للتحكم اليدوي
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+
+    // حفظ واسترجاع موضع التمرير
+    function saveScrollPosition() {
+        const scrollY = window.scrollY;
+        sessionStorage.setItem('animeScrollPos', scrollY);
+    }
+
+    function restoreScrollPosition() {
+        const savedPos = sessionStorage.getItem('animeScrollPos');
+        if (savedPos !== null && !isNaN(parseInt(savedPos))) {
+            window.scrollTo(0, parseInt(savedPos));
+            sessionStorage.removeItem('animeScrollPos');
+        }
+    }
+
+    // حفظ الموضع قبل مغادرة الصفحة (لأي سبب)
+    window.addEventListener('beforeunload', () => {
+        saveScrollPosition();
+    });
+
+    // حفظ الموضع عند النقر على الأنمي (لضمان الدقة)
+    function attachCardListeners() {
+        document.querySelectorAll('.anime-card').forEach(card => {
+            card.removeEventListener('click', handleCardClick);
+            card.addEventListener('click', handleCardClick);
+        });
+    }
+
+    function handleCardClick(e) {
+        const link = this.getAttribute('data-link');
+        if (link) {
+            saveScrollPosition();   // حفظ الموضع الحالي بدقة
+            window.open(link);
+        }
+    }
+
+    function renderCards(filter = '') {
+        const filtered = allAnime.filter(item => item.name.toLowerCase().includes(filter.toLowerCase()));
+        if (!gridContainer) return;
+        if (filtered.length === 0) {
+            gridContainer.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px;">⚠️ لا توجد نتائج مطابقة لـ "${filter}"</div>`;
+            return;
+        }
+        let html = '';
+        filtered.forEach(anime => {
+            html += `
+                <div class="anime-card" data-link="${anime.link}" data-name="${anime.name}">
+                    <div class="card-img">
+                        <img src="${anime.img}" alt="${anime.name}" loading="lazy" onerror="this.src='https://placehold.co/400x520?text=No+Image'">
+                        <div class="play-hint"><i class="fas fa-play"></i> تشغيل</div>
+                    </div>
+                    <div class="card-info">
+                        <h3>${anime.name}</h3>
+                        <div class="badge"><i class="fas fa-tv"></i> Free</div>
+                    </div>
+                </div>
+            `;
+        });
+        gridContainer.innerHTML = html;
+        attachCardListeners();
+    }
+
+    // النقر على عنوان "قائمة الأنمي" يفتح go:home
+    if (homeLink) {
+        homeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.open('https://play.google.com/store/apps/details?id=com.linkbox.plus.android&hl=ar');
+        });
+    }
+
+    if (searchInputElem) {
+        searchInputElem.addEventListener('input', (e) => renderCards(e.target.value));
+    }
+
+    // عند تحميل الصفحة: عرض البطاقات واستعادة الموضع
+    window.addEventListener('load', () => {
+        renderCards('');
+        restoreScrollPosition();
+    });
+
+    // عند العودة من الصفحة عبر bfcache (مثل الرجوع من الرابط)
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            restoreScrollPosition();
+        }
+    });
+</script>
+</body>
+</html>
+
+
